@@ -1,0 +1,39 @@
+<h1 class="mb-4">自治会掲示板</h1>
+<form action="/posts" method="POST" class="mb-4" enctype="multipart/form-data">
+  <div class="mb-3">
+    <input type="text" name="title" class="form-control" placeholder="タイトル" required>
+  </div>
+  <div class="mb-3">
+    <textarea name="content" class="form-control" rows="3" placeholder="内容" required></textarea>
+  </div>
+  <div class="mb-3">
+    <input type="file" name="file" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-primary">投稿</button>
+</form>
+
+<ul class="list-group">
+  <% posts.forEach(post => { %>
+    <li class="list-group-item">
+      <h5><%= post.title %></h5>
+      <p><%= post.content %></p>
+      <% if (post.filePath) { %>
+        <p>
+          添付: 
+          <% if (post.filePath.endsWith('.pdf')) { %>
+            <a href="<%= post.filePath %>" target="_blank"><%= post.filePath %></a>
+          <% } else { %>
+            <img src="<%= post.filePath %>" alt="attachment" style="max-width: 200px;">
+          <% } %>
+        </p>
+      <% } %>
+      <small class="text-muted"><%= post.createdAt.toLocaleString() %></small>
+      <div class="mt-2">
+        <a href="/posts/<%= post.id %>/edit" class="btn btn-sm btn-outline-primary">編集</a>
+        <form action="/posts/<%= post.id %>/delete" method="POST" style="display:inline;">
+          <button type="submit" class="btn btn-sm btn-outline-danger">削除</button>
+        </form>
+      </div>
+    </li>
+  <% }) %>
+</ul>

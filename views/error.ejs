@@ -1,0 +1,6 @@
+<!-- views/error.ejs -->
+<h1><%= message %></h1>
+
+<% if (typeof error !== 'undefined' && error.stack) { %>
+  <pre><%= error.stack %></pre>
+<% } %>
